@@ -1,5 +1,15 @@
 # Q1
 # check packages
+pkgs <- c("stringr","httr","rvest", "purrr","dplyr","XML","RCurl","readr","tidytext","rebus")
+
+pkgTest <- function(pkgs){ 
+  for (i in pkgs){
+    if (!require(i,character.only = TRUE)){
+      install.packages(i,dep=TRUE)
+    }
+  }
+}
+pkgTest(pkgs)
 
 library(stringr)
 library(httr)
@@ -72,7 +82,7 @@ for (i in 1:length(symbols$Symbol)){
 
 ## Concatenate all the csv files together as a large csv file
 
-path <- "/Users/apple/Documents/coursework/R programming/SLBD"
+path <- "stock_price"
 df <- multmerge(path)
 
 filenames=list.files(path=path, full.names=TRUE,pattern="*.csv",recursive=FALSE)
@@ -127,7 +137,7 @@ uni2 <- unique(split_names)
 ## Select first anme and last name then combine
 uni2 <- uni2 %>%
   select(fname,lname)
-write_csv(uni2,"uni2.csv")
+
 list <- paste(uni2$fname," ",uni2$lname)
 
 num_pubs <- function(author){
