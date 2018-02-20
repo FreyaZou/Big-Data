@@ -72,7 +72,7 @@ table_scrape <- function(symbol){
   company <- rep(symbol,nrow(tbls_ls[[1]]))
   table <- cbind(tbls_ls[[1]],company)
   
-  write.csv(table, paste0(symbol,".csv"))
+  write.csv(table, paste0("stock_price/",symbol,".csv"))
 }
 
 ## Output a csv file for each company
@@ -82,8 +82,8 @@ for (i in 1:length(symbols$Symbol)){
 
 ## Concatenate all the csv files together as a large csv file
 
-path <- "stock_price"
-df <- multmerge(path)
+path <- normalizePath("stock_price")
+
 
 filenames=list.files(path=path, full.names=TRUE,pattern="*.csv",recursive=FALSE)
 
@@ -92,9 +92,10 @@ all_price <- data.frame()
 for (i in 1:length(filenames)) {
   file <- read.csv(filenames[i], header=TRUE, stringsAsFactors = FALSE)
   all_price <- rbind(all_price, file)
+  return(all_price)
 }
 
-
+write.csv(all_price,"all_price.csv")
 
 
 
